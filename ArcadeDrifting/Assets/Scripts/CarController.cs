@@ -11,17 +11,27 @@ public class CarController : MonoBehaviour
     public float Traction = 1;
 
     private Vector3 MoveForce;
+    private InputReader InputReader;
+
+    private void Awake()
+    {
+        InputReader = GetComponent<InputReader>();
+    }
 
     // Update is called once per frame
     void Update()
     {
         // Moving
-        MoveForce += transform.forward * MoveSpeed * Input.GetAxis("Vertical") * Time.deltaTime;
+        float accelerationValue;
+        if (InputReader.IsAccelerating) accelerationValue = 1;
+        else accelerationValue = 0;
+        
+        MoveForce += transform.forward * MoveSpeed * accelerationValue * Time.deltaTime;
         transform.position += MoveForce * Time.deltaTime;
 
         // Steering
-        float steerInput = Input.GetAxis("Horizontal");
-        transform.Rotate(Vector3.up * steerInput * MoveForce.magnitude * SteerAngle * Time.deltaTime);
+        //float steerInput = Input.GetAxis("Horizontal");
+        transform.Rotate(Vector3.up * InputReader.MovementValue.x * MoveForce.magnitude * SteerAngle * Time.deltaTime);
 
         // Drag and max speed limit
         MoveForce *= Drag;
