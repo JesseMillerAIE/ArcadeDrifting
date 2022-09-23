@@ -29,7 +29,7 @@ public class CarController : MonoBehaviour
         if (InputReader.IsAccelerating) accelerationValue = 1;
         else accelerationValue = 0;
         
-        Debug.Log(MoveForce.magnitude);
+        
         // Steering
         //float steerInput = Input.GetAxis("Horizontal");
         transform.Rotate(Vector3.up * InputReader.MovementValue.x * MoveForce.magnitude * SteerAngle * Time.deltaTime);

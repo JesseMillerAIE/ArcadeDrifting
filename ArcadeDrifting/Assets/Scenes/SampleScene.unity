@@ -311,12 +311,20 @@ PrefabInstance:
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 6685594425214857432, guid: e669e9ce801944ce5ba2932d8d00c170, type: 3}
+      propertyPath: MoveSpeed
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6685594425214857432, guid: e669e9ce801944ce5ba2932d8d00c170, type: 3}
       propertyPath: handbrakeMaxSpeed
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6685594425214857432, guid: e669e9ce801944ce5ba2932d8d00c170, type: 3}
+      propertyPath: handbrakeStrength
+      value: 1.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 6685594425214857432, guid: e669e9ce801944ce5ba2932d8d00c170, type: 3}
       propertyPath: handbrakeTraction
-      value: -40
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 6685594425214857432, guid: e669e9ce801944ce5ba2932d8d00c170, type: 3}
       propertyPath: handbrakeSteerAngle
