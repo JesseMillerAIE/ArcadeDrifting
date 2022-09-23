@@ -10,6 +10,9 @@ public class CarController : MonoBehaviour
     public float SteerAngle = 20;
     public float Traction = 1;
 
+    public float handbrakeStrength;
+    public float handbrakeTraction;
+
     private Vector3 MoveForce;
     private InputReader InputReader;
 
@@ -19,16 +22,14 @@ public class CarController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         // Moving
         float accelerationValue;
         if (InputReader.IsAccelerating) accelerationValue = 1;
         else accelerationValue = 0;
         
-        MoveForce += transform.forward * MoveSpeed * accelerationValue * Time.deltaTime;
-        transform.position += MoveForce * Time.deltaTime;
-
+        Debug.Log(MoveForce.magnitude);
         // Steering
         //float steerInput = Input.GetAxis("Horizontal");
         transform.Rotate(Vector3.up * InputReader.MovementValue.x * MoveForce.magnitude * SteerAngle * Time.deltaTime);
@@ -40,22 +41,28 @@ public class CarController : MonoBehaviour
         // Traction
         MoveForce = Vector3.Lerp(MoveForce.normalized, transform.forward, Traction * Time.deltaTime) * MoveForce.magnitude;
 
-        //Handbrake Attempt
+        //Handbrake Attempt 
 
-        
         if (InputReader.IsBreaking)
         {
-            SteerAngle = 30;
+            //(Turned into a reverse button)
+            // MoveForce -= transform.forward * Time.deltaTime * handbrakeStrength; 
+
+            //MoveForce = transform.forward*handbrakeStrength/Time.deltaTime ;
+
+            MoveForce /= handbrakeStrength;
+            Traction = handbrakeTraction;
             
-            Traction = -10;
         }
-
-        else {
-
-            SteerAngle = 20;
-           
+        else
+        {
             Traction = 1;
         }
 
+        
+       
+
+        MoveForce += transform.forward * MoveSpeed * accelerationValue * Time.deltaTime;
+        transform.position += MoveForce * Time.deltaTime;
     }
 }
