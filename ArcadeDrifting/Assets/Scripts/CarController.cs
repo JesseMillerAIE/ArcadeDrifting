@@ -40,5 +40,22 @@ public class CarController : MonoBehaviour
         // Traction
         MoveForce = Vector3.Lerp(MoveForce.normalized, transform.forward, Traction * Time.deltaTime) * MoveForce.magnitude;
 
+        //Handbrake Attempt
+
+        
+        if (InputReader.IsBreaking)
+        {
+            SteerAngle = 30;
+            
+            Traction = -10;
+        }
+
+        else {
+
+            SteerAngle = 20;
+           
+            Traction = 1;
+        }
+
     }
 }

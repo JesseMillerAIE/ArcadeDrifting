@@ -10,6 +10,8 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
     public Vector2 MovementValue { get; private set; }
     public bool IsAccelerating { get; private set; }
 
+    public bool IsBreaking { get; private set; }
+
     private void Start()
     {
         controls = new Controls();
@@ -28,5 +30,11 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
     {
         if (context.performed) IsAccelerating = true; 
         else if (context.canceled) IsAccelerating = false;
+    }
+
+    public void OnHandbrake(InputAction.CallbackContext context)
+    {
+        if (context.performed) IsBreaking = true;
+        else if (context.canceled) IsBreaking = false;
     }
 }
