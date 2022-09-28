@@ -78,16 +78,18 @@ public class CarController : MonoBehaviour
         MoveForce += transform.forward * MoveSpeed * accelerationValue * Time.deltaTime;
             transform.position += MoveForce * Time.deltaTime;
 
-        Yaxis = transform.position.y;
+        
 
-        if(Yaxis <0.78f)
-        {
-            Yaxis = 0.78f;
-        }
+        
     }
 
     public void CollisionTimeout()
     {
         canDrive = true;
+    }
+
+    public void DefaultSpeed()
+    {
+        MoveSpeed = 50;
     }
 }
