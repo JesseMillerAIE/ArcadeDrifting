@@ -12,16 +12,20 @@ public class CarController : MonoBehaviour
 
     public float handbrakeStrength;
     public float handbrakeTraction;
+    public float Yaxis;
 
     public bool canDrive;
 
     public Vector3 MoveForce;
     private InputReader InputReader;
 
+    
+
     private void Awake()
     {
         InputReader = GetComponent<InputReader>();
         canDrive = true;
+
     }
 
     // Update is called once per frame
@@ -74,7 +78,12 @@ public class CarController : MonoBehaviour
         MoveForce += transform.forward * MoveSpeed * accelerationValue * Time.deltaTime;
             transform.position += MoveForce * Time.deltaTime;
 
-        
+        Yaxis = transform.position.y;
+
+        if(Yaxis <0.78f)
+        {
+            Yaxis = 0.78f;
+        }
     }
 
     public void CollisionTimeout()
