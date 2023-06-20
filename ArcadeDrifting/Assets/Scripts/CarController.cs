@@ -10,28 +10,63 @@ public class CarController : MonoBehaviour
     public float SteerAngle = 20;
     public float Traction = 1;
 
-    private Vector3 MoveForce;
+    public float handbrakeStrength;
+    public float handbrakeTraction;
+    public float Yaxis;
+
+    public bool canDrive;
+
+    public Vector3 MoveForce;
     private InputReader InputReader;
+
+    
 
     private void Awake()
     {
         InputReader = GetComponent<InputReader>();
+        canDrive = true;
+
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        // Moving
-        float accelerationValue;
-        if (InputReader.IsAccelerating) accelerationValue = 1;
-        else accelerationValue = 0;
-        
-        MoveForce += transform.forward * MoveSpeed * accelerationValue * Time.deltaTime;
-        transform.position += MoveForce * Time.deltaTime;
+        float accelerationValue = 0;
+        if (canDrive)
+        {
 
-        // Steering
-        //float steerInput = Input.GetAxis("Horizontal");
-        transform.Rotate(Vector3.up * InputReader.MovementValue.x * MoveForce.magnitude * SteerAngle * Time.deltaTime);
+
+            // Moving
+            
+            if (InputReader.IsAccelerating) accelerationValue = 1;
+            else accelerationValue = 0;
+
+
+            // Steering
+            //float steerInput = Input.GetAxis("Horizontal");
+            transform.Rotate(Vector3.up * InputReader.MovementValue.x * MoveForce.magnitude * SteerAngle * Time.deltaTime);
+
+
+            //Handbrake Attempt 
+
+            if (InputReader.IsBreaking)
+            {
+                //(Turned into a reverse button)
+                //MoveForce -= transform.forward * Time.deltaTime * handbrakeStrength; 
+
+                //MoveForce = transform.forward*handbrakeStrength/Time.deltaTime ;
+
+                MoveForce /= handbrakeStrength;
+                Traction = handbrakeTraction;
+
+            }
+            else
+            {
+                Traction = 1;
+            }
+
+
+        }
 
         // Drag and max speed limit
         MoveForce *= Drag;
@@ -40,5 +75,21 @@ public class CarController : MonoBehaviour
         // Traction
         MoveForce = Vector3.Lerp(MoveForce.normalized, transform.forward, Traction * Time.deltaTime) * MoveForce.magnitude;
 
+        MoveForce += transform.forward * MoveSpeed * accelerationValue * Time.deltaTime;
+            transform.position += MoveForce * Time.deltaTime;
+
+        
+
+        
+    }
+
+    public void CollisionTimeout()
+    {
+        canDrive = true;
+    }
+
+    public void DefaultSpeed()
+    {
+        MoveSpeed = 50;
     }
 }
